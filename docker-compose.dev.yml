@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - proyecto_network
 
   pgAdmin:
     depends_on:
@@ -29,6 +31,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: development
     container_name: django
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -39,5 +42,26 @@ services:
       POSTGRES_NAME: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - proyecto_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development    # Usa etapa de desarrollo
+    container_name: proyecto_frontend_dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules  # Volume anónimo para node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    networks:
+      - proyecto_network
+    stdin_open: true
+    tty: true
+    
 volumes:
   volumen_post:
