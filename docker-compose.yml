@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:14.18
+    restart: always
+    container_name: postgresql
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+      - volumen_post:/var/lib/postgresql/data
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+  pgAdmin:
+    depends_on:
+      - db
+    container_name: pgadmin
+    image: dpage/pgadmin4:9.5.0
+    ports:
+      - "80:80"
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: mirco@gmail.com
+
+  backend:
+    depends_on:
+      - db
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_NAME: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+volumes:
+  volumen_post:
