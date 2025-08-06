@@ -1,0 +1,73 @@
+services:
+  db:
+    image: postgres:14.18
+    restart: always
+    container_name: postgresql
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - proyecto_network
+
+  pgAdmin:
+    depends_on:
+      - db
+    container_name: pgadmin
+    image: dpage/pgadmin4:9.5.0
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: mirco@gmail.com
+    networks:
+      - proyecto_network
+
+  backend:
+    depends_on:
+      - db
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_NAME: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_HOST: db
+    networks:
+      - proyecto_network
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #     target: development
+  #   container_name: proyecto_frontend_dev
+  #   volumes:
+  #     - ./frontend:/code
+  #     - /app/node_modules
+  #   ports:
+  #     - "5173:5173"
+  #   environment:
+  #     - VITE_API_URL=http://localhost:8000
+  #   networks:
+  #     - proyecto_network
+  #   stdin_open: true
+  #   tty: true
+
+networks:
+  proyecto_network:
+    driver: bridge
+
+volumes:
+  volumen_post:
