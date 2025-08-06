@@ -90,7 +90,7 @@ Para contribuir al proyecto:
 Este proyecto está bajo la Licencia [Tu Licencia] - ver el archivo LICENSE.md para detalles
 
 ## 📞 Contacto
-[Tu Nombre] - [Tu Email]
+[MircoDev] - [mirkex.guitar@gmail.com]
 
 ---
-⌨️ con ❤️ por [Tu Nombre]
+⌨️ con ❤️ por [MircoDev]
