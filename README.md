@@ -104,9 +104,16 @@ Para contribuir al proyecto:
 Este proyecto está bajo la Licencia [Tu Licencia] - ver el archivo LICENSE.md para detalles
 
 ## 📞 Contacto
+<<<<<<< HEAD
 
 Mirco - mirkex.guitar@gmail.com
 
 ---
 
 ⌨️ con ❤️ por [Tu Nombre]
+=======
+[MircoDev] - [mirkex.guitar@gmail.com]
+
+---
+⌨️ con ❤️ por [MircoDev]
+>>>>>>> e6195926f9673588d58b1129712f7a9d6439f7d8
