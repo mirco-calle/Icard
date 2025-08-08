@@ -10,6 +10,7 @@ FROM base AS development
 RUN python -m pip install --upgrade pip \
     && python -m pip install -r requirements.txt --no-cache-dir \
     && python -m pip install debugpy
+RUN python -m pip install drf-yasg
 COPY . .
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
