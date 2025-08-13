@@ -1,3 +1,12 @@
 //AQUI SE VA GESTIONAR LAS RUTAS DEL CLIENTE
-const routesClient = [];
+import { ClientLayout } from "../layouts";
+import { Home } from "../pages/Client";
+const routesClient = [
+  {
+    path: "/",
+    layout: ClientLayout,
+    component: Home,
+    exact: true,
+  },
+];
 export default routesClient;
